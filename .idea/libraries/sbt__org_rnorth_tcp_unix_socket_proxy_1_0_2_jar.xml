@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: org.rnorth:tcp-unix-socket-proxy:1.0.2:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.rnorth/tcp-unix-socket-proxy/jars/tcp-unix-socket-proxy-1.0.2.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/org.rnorth/tcp-unix-socket-proxy/srcs/tcp-unix-socket-proxy-1.0.2-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

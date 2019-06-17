@@ -15,11 +15,11 @@ import akka.testkit.TestKit
 import akka.util.ByteString
 import org.scalatest._
 import org.scalatest.concurrent.ScalaFutures
+
 import scala.concurrent.{ExecutionContext, Future, Promise}
 import scala.concurrent.duration._
 
-class MqttFlowSpec
-  extends TestKit(ActorSystem("MqttFlowSpec"))
+class MqttFlowSpec extends TestKit(ActorSystem("MqttFlowSpec"))
     with WordSpecLike
     with Matchers
     with BeforeAndAfterAll
