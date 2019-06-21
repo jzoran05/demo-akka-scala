@@ -1,3 +1,5 @@
+import sbt.util
+
 name := "akka-demo-scala"
 
 version := "0.1"
@@ -6,6 +8,8 @@ scalaVersion := "2.12.8"
 val scalaDependencyVersion = "2.5.23"
 val alpakkaDependencyVersion = "1.0.4"
 val slf4jVersion = "1.7.26"
+
+logLevel := Level.Warn
 
 libraryDependencies += "com.typesafe.akka" %% "akka-actor" % scalaDependencyVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-stream" % scalaDependencyVersion

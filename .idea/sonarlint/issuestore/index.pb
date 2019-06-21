@@ -157,3 +157,5 @@ n
 >.idea/libraries/sbt__org_slf4j_log4j_over_slf4j_1_7_26_jar.xml,4\3\43a7e6c0a20be4bb9182f9c57bca1c1b4149e10d
 J
 resources/logback-test.xml,8\8\88f79ec2832f922ace4f08e0de2d3bdad1abb676
+U
+%src/test/scala/KafkaStreamsTest.scala,7\5\75297b89237b05ea13013e249afff8605750f007

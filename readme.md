@@ -6,3 +6,6 @@
   - Standard Akka Integration documentation
   
 ## Next tasks
+- Create two Actors which are exchanging messages between themselves via Kafka
+  - Each Actor consumes and produces Kafka by using Akka Streams for Kafka (Alpakka Akka)
+  - This requires Actor - Akka Streams integration

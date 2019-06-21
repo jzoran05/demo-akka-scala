@@ -7,13 +7,13 @@ import akka.stream.scaladsl._
 //import akka.stream.scaladsl.JavaFlowSupport.Source
 
 object PrintSomeNumbersActor {
-  def props(implicit materializer: ActorMaterializer) : Props = Props(new PrintSomeNumbersActor())
+  def props() : Props = Props(new PrintSomeNumbersActor())
 }
 
-class PrintSomeNumbersActor(implicit materializer: ActorMaterializer) extends Actor with ActorLogging {
+class PrintSomeNumbersActor() extends Actor with ActorLogging {
 
   private implicit val executionContext = context.system.dispatcher
-
+  implicit val materializer = ActorMaterializer()
   def receive = {
     case "run" => {
       Source(1 to 10)
