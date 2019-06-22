@@ -31,12 +31,13 @@ object ActorDemoApplication extends App {
     kafka.start()
     val bootstrapServers = kafka.getBootstrapServers
 
-    val producerActor = system.actorOf(KafkaStreamingProducerActor.props(config, bootstrapServers))
+    val producerActor = system.actorOf(KafkaStreamingProducerActor.props(config, bootstrapServers), "KafkaStreamingProducerActor")
 
     myActor ! "test"
     myActorConstructor ! "return"
     myActorCompanionObject ! "test"
     printSomeNumbersActor ! "run"
+    producerActor ! KafkaStreamingProducerActor.health
 
     StdIn.readLine()
   }  finally system.terminate()

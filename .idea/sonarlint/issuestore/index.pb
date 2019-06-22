@@ -51,8 +51,6 @@ J
 Lsrc/main/scala/demo/akka/actor/streamintegration/PrintSomeNumbersActor.scala,5\0\50bec123bac8622b62a80447ceb0ebd0466f9d63
 i
 9src/main/scala/demo/akka/actor/ActorDemoApplication.scala,1\f\1f2f633ba2ff7dddf15a7affc8ac23ac9d44bb2f
-z
-Jsrc/main/scala/demo/akka/actor/streamintegration/KafkaStreamingActor.scala,1\3\1310e2fa94452cabc9b06250579f4bc78257c786
 \
 ,src/test/scala/KafkaStreamingActorTest.scala,f\2\f2af3db1828d13dcb3afbdca5ff4a7111a6a6eed
 e

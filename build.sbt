@@ -11,8 +11,8 @@ val slf4jVersion = "1.7.26"
 
 logLevel := Level.Warn
 
-libraryDependencies += "com.typesafe.akka" %% "akka-actor" % scalaDependencyVersion
-libraryDependencies += "com.typesafe.akka" %% "akka-stream" % scalaDependencyVersion
+//libraryDependencies += "com.typesafe.akka" %% "akka-actor" % scalaDependencyVersion
+//libraryDependencies += "com.typesafe.akka" %% "akka-stream" % scalaDependencyVersion
 libraryDependencies += "com.lightbend.akka" %% "akka-stream-alpakka-mqtt-streaming" % "1.0.1"
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-kafka" % alpakkaDependencyVersion
 libraryDependencies += "com.typesafe.akka" %% "akka-stream-kafka-testkit" % alpakkaDependencyVersion
@@ -23,8 +23,8 @@ libraryDependencies += "org.apache.commons" % "commons-compress" % "1.18" // emb
 
 libraryDependencies += "com.typesafe.akka" %% "akka-slf4j" % scalaDependencyVersion % Test
 libraryDependencies += "ch.qos.logback" % "logback-classic" % "1.2.3" % Test
-libraryDependencies += "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test
-libraryDependencies += "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test
+//libraryDependencies += "org.slf4j" % "log4j-over-slf4j" % slf4jVersion % Test
+//libraryDependencies += "org.slf4j" % "jul-to-slf4j" % slf4jVersion % Test
 
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
