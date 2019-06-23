@@ -36,7 +36,7 @@ class KafkaStreamingActorTest extends FunSuite with AssertionsForJUnit {
     val producerActor = system.actorOf(KafkaStreamingProducerActor.props(config, bootstrapServers))
     val consumerActor = system.actorOf(KafkaStreamingConsumerActor.props(config, bootstrapServers))
 
-    producerActor ! KafkaStreamingProducerActor.health // get health
+    producerActor ! "gethealth" // get health
   }
 
 

@@ -1,30 +1,13 @@
 package demo.akka.actor.streamintegration
 
-import akka.actor.{Actor, ActorLogging, Props}
+import akka.actor.Props
 import akka.stream.ActorMaterializer
-import com.typesafe.config.ConfigMergeable
-import java.util.Optional
-import java.util.concurrent.atomic.AtomicLong
-
-import akka.Done
-import akka.actor.ActorSystem
-import akka.annotation.InternalApi
-import akka.kafka.{ConsumerSettings, Subscriptions}
-import akka.kafka.internal._
-import akka.kafka.scaladsl.Consumer
+import akka.kafka.{ProducerMessage, Subscriptions}
 import akka.stream.scaladsl.{Keep, Sink}
-import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer}
-import org.apache.kafka.clients.consumer.{ConsumerConfig, ConsumerRecord}
-
-import scala.concurrent.Future
-//import akka.util.JavaDurationConverters._
 import com.typesafe.config.Config
-import akka.kafka.scaladsl.{Consumer, Producer}
-
-import scala.collection.JavaConverters._
-import scala.compat.java8.OptionConverters._
-import scala.concurrent.duration._
+import akka.kafka.scaladsl.Consumer
+import org.apache.kafka.clients.consumer.ConsumerRecord
+import org.apache.kafka.clients.producer.ProducerRecord
 
 /*
 Companion object
@@ -32,27 +15,29 @@ Companion object
 object KafkaStreamingConsumerActor {
   case object readkafka
   case object health
-  def props(config: Config,
-            bootStrapServers: String) : Props = Props(new KafkaStreamingConsumerActor(config, bootStrapServers))
+  def props(config: Config, bootStrapServers: String) : Props =
+    Props(new KafkaStreamingConsumerActor(config: Config, bootStrapServers))
 }
 
 
-class KafkaStreamingConsumerActor(config: Config,
-                                  bootStrapServers: String) extends AkkaStreamingKafkaAbstractActor(config) {
+class KafkaStreamingConsumerActor(config: Config, bootStrapServers: String) extends AkkaStreamingKafkaAbstractActor {
 
   private implicit val executionContext = context.system.dispatcher
   private implicit val materializer = ActorMaterializer()
+
   val topic = "Topic1"
   val consumerGroup = "Group1"
+
   private val akkaStreamKafkaSource = Consumer.plainSource(
-    createConsumerSettings(bootStrapServers, consumerGroup),
+    createConsumerSettings(config, bootStrapServers, consumerGroup),
     Subscriptions.topics(topic))
-      .map(_.value().toString)
+      .map ( msg => new String(msg.value()) )
+
   private val sink = Sink.foreach[String](println(_))
 
   def receive = {
 
-    case health =>
+    case "health" =>
       log.info("'health' invoked")
 
     case "readkafka" =>

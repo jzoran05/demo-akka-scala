@@ -10,14 +10,14 @@ import org.apache.kafka.clients.producer.ProducerRecord
 
 object KafkaStreamingProducerActor {
   case object writekafka
-  case object health
-  def props(config: Config,
-            bootStrapServers: String) : Props = Props(new KafkaStreamingProducerActor(config, bootStrapServers))
+  case object gethealth
+  def props(config: Config, bootStrapServers: String) : Props =
+    Props(new KafkaStreamingProducerActor(config: Config, bootStrapServers))
 }
 
 class KafkaStreamingProducerActor (config: Config,
                                    bootStrapServers: String)
-  extends AkkaStreamingKafkaAbstractActor (config) {
+  extends AkkaStreamingKafkaAbstractActor  {
 
   implicit val materializer = ActorMaterializer()
   //private implicit val executionContext = context.system.dispatcher
@@ -27,16 +27,17 @@ class KafkaStreamingProducerActor (config: Config,
 
   def receive = {
 
-    case health =>
+    case "gethealth" =>
       log.info("'health' invoked")
 
     case "writekafka" =>
-      log.info("'writekafka' invoked")
       counter += 1
+      log.info(s"'writekafka' invoked $counter times")
       Source.single(counter)
         .map(_.toString)
         .map(value => new ProducerRecord[String, String](topic, value))
-        .runWith(Producer.plainSink(createProducerSettings(bootStrapServers, consumerGroup)))
+        .runWith(Producer.plainSink(createProducerSettings(config, bootStrapServers, consumerGroup)))
       log.info("Completed 'writekafka'")
+
   }
 }

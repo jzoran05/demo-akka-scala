@@ -7,16 +7,22 @@ import com.typesafe.config.Config
 import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.common.serialization.{ByteArrayDeserializer, StringDeserializer, StringSerializer}
 
-abstract class AkkaStreamingKafkaAbstractActor(config: Config)
+abstract class AkkaStreamingKafkaAbstractActor()
   extends Actor with ActorLogging {
 
-  def createProducerSettings(bootstrapServers: String, consumerGroup: String): ProducerSettings[String, String] = {
+  def createProducerSettings(
+                              config: Config,
+                              bootstrapServers: String,
+                              consumerGroup: String): ProducerSettings[String, String] = {
     val producerSettings = ProducerSettings(config, new StringSerializer, new StringSerializer)
       .withBootstrapServers(bootstrapServers)
     producerSettings
   }
 
-  def createConsumerSettings(bootstrapServers: String, consumerGroup: String): ConsumerSettings[String, Array[Byte]] = {
+  def createConsumerSettings(
+                              config: Config,
+                              bootstrapServers: String,
+                              consumerGroup: String): ConsumerSettings[String, Array[Byte]] = {
 
     if (config == null) log.error("'config' is not initialized")
     // #settings
