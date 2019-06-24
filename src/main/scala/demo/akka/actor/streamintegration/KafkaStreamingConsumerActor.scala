@@ -6,8 +6,7 @@ import akka.kafka.{ProducerMessage, Subscriptions}
 import akka.stream.scaladsl.{Keep, Sink}
 import com.typesafe.config.Config
 import akka.kafka.scaladsl.Consumer
-import org.apache.kafka.clients.consumer.ConsumerRecord
-import org.apache.kafka.clients.producer.ProducerRecord
+
 
 /*
 Companion object
@@ -44,23 +43,9 @@ class KafkaStreamingConsumerActor(config: Config, bootStrapServers: String) exte
       log.info("'readkafka' invoked")
       val runnable = akkaStreamKafkaSource.toMat(sink)(Keep.right)
       runnable.run
-      log.info("Completed 'readkafka'")
   }
 
-/*
-  private def createConsumerSettings(bootstrapServers: String, consumerGroup: String): ConsumerSettings[String, Array[Byte]] = {
 
-    if (config == null) log.error("'config' is not initialized")
-    // #settings
-    val consumerSettings =
-      ConsumerSettings(config, new StringDeserializer, new ByteArrayDeserializer)
-        .withBootstrapServers(bootstrapServers)
-        .withGroupId(consumerGroup)
-        .withProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest")
-    //#settings
-    consumerSettings
-  }
-*/
 
 
 }
