@@ -28,3 +28,24 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 
 libraryDependencies += "commons-cli" % "commons-cli" % "1.4"
+
+lazy val commonSettings = Seq(
+  version := "0.1",
+  organization := "demo.akka.actor",
+  scalaVersion := "2.12.8",
+  test in assembly := {}
+)
+
+lazy val app = (project in file("app")).
+  settings(commonSettings: _*).
+  settings(
+    mainClass in assembly := Some("demo.akka.actor.Main"),
+    // more settings here ...
+  )
+
+lazy val utils = (project in file("utils")).
+  settings(commonSettings: _*).
+  settings(
+    assemblyJarName in assembly := "akka-demo-scala_2.12-0.1.jar",
+    // more settings here ...
+  )
