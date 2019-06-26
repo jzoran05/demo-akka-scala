@@ -17,6 +17,7 @@ object ActorDemoApplication extends App {
   // create Options object
   val options = new Options()
   options.addOption("task", true, "Task Name: 'producer', 'consumer'" )
+  options.addOption("bootstrapServer", true, "Task Name: 'producer', 'consumer'" )
 
   val parser = new DefaultParser
   val cmd = parser.parse(options, args)
@@ -34,7 +35,11 @@ object ActorDemoApplication extends App {
           val bootstrapServer = cmd.getOptionValue("bootstrapServer")
           println(s"bootstrapServer option: $bootstrapServer")
           startConsumer(bootstrapServer)
-        } else throw new Exception("bootstrapServer arg is missing!")
+        } else
+          {
+            println("bootstrapServer arg is missing!")
+            this.finalize()
+          }
 
       case "producer-consumer" => startProducerConsumer
       case "basic" => startBasic
@@ -50,8 +55,12 @@ object ActorDemoApplication extends App {
         kafka.start()
         val bootstrapServers = kafka.getBootstrapServers
 
-        val producerActor = system.actorOf(KafkaStreamingProducerActor.props(producerConfig, bootstrapServers), "KafkaStreamingProducerActor")
-        val consumerActor = system.actorOf((KafkaStreamingConsumerActor.props(consumerConfig, bootstrapServers)), "KafkaStreamingConsumerActor")
+        val producerActor = system.actorOf(
+          KafkaStreamingProducerActor.props(producerConfig, bootstrapServers),
+          "KafkaStreamingProducerActor")
+        val consumerActor = system.actorOf(
+          KafkaStreamingConsumerActor.props(consumerConfig, bootstrapServers),
+          "KafkaStreamingConsumerActor")
 
         producerActor ! "gethealth"
         consumerActor ! "health"
