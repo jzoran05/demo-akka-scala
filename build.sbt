@@ -50,5 +50,5 @@ lazy val utils = (project in file("utils")).
     assemblyJarName in assembly := "akka-demo-scala_2.12-0.1.jar",
     // more settings here ...
   )
-  
+
  */
