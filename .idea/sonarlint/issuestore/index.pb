@@ -177,7 +177,5 @@ h
 8.idea/libraries/sbt__commons_cli_commons_cli_1_4_jar.xml,1\7\17169525fa0de19a9c483100bc755af68ade4425
 ‚
 Rsrc/main/scala/demo/akka/actor/streamintegration/KafkaStreamingConsumerActor.scala,2\d\2d49bb9ff1a9f3696d17cceb9c4b7a1171179543
-E
-.idea/modules/app.iml,9\7\97b6a4c7df03320f8a9c4d686033ca981e02d73a
 C
 project/plugins.sbt,9\4\94cef6f41fc73ccebe945d2b889292615a09dddb

@@ -36,6 +36,7 @@ lazy val commonSettings = Seq(
   test in assembly := {}
 )
 
+/*
 lazy val app = (project in file("app")).
   settings(commonSettings: _*).
   settings(
@@ -49,3 +50,5 @@ lazy val utils = (project in file("utils")).
     assemblyJarName in assembly := "akka-demo-scala_2.12-0.1.jar",
     // more settings here ...
   )
+  
+ */
