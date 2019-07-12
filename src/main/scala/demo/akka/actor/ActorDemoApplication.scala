@@ -17,7 +17,7 @@ object ActorDemoApplication extends App {
   // create Options object
   val options = new Options()
   options.addOption("task", true, "Task Name: 'producer', 'consumer'" )
-  options.addOption("bootstrapServer", true, "Task Name: 'producer', 'consumer'" )
+  options.addOption("bootstrapServer", true, "example setting: PLAINTEXT://localhost:32769" )
 
   val parser = new DefaultParser
   val cmd = parser.parse(options, args)
@@ -29,63 +29,36 @@ object ActorDemoApplication extends App {
 
     val taskName = cmd.getOptionValue("task")
     taskName match {
-      case "producer" => startProducer
+      case "producer" =>
+        exitIfnoBootstrapArg
+        startProducer
       case "consumer" =>
-        if(cmd.hasOption("bootstrapServer")) {
-          val bootstrapServer = cmd.getOptionValue("bootstrapServer")
-          println(s"bootstrapServer option: $bootstrapServer")
-          startConsumer(bootstrapServer)
-        } else
-          {
-            println("bootstrapServer arg is missing!")
-            this.finalize()
-          }
-
-      case "producer-consumer" => startProducerConsumer
+        exitIfnoBootstrapArg
+        startConsumer
+      case "startKafka" => startKafka
       case "basic" => startBasic
     }
 
-    def startProducerConsumer: Unit = {
-      try {
-
-        val consumerConfig = system.settings.config.getConfig("akka.kafka.consumer")
-        val producerConfig = system.settings.config.getConfig("akka.kafka.producer")
-
-        val kafka = new KafkaContainer
-        kafka.start()
-        val bootstrapServers = kafka.getBootstrapServers
-
-        val producerActor = system.actorOf(
-          KafkaStreamingProducerActor.props(producerConfig, bootstrapServers),
-          "KafkaStreamingProducerActor")
-        val consumerActor = system.actorOf(
-          KafkaStreamingConsumerActor.props(consumerConfig, bootstrapServers),
-          "KafkaStreamingConsumerActor")
-
-        producerActor ! "gethealth"
-        consumerActor ! "health"
-
-        consumerActor ! "readkafka"
-
-        producerActor ! "writekafka"
-        producerActor ! "writekafka"
-        producerActor ! "writekafka"
-        StdIn.readLine
-      }
-      finally system.terminate
+    def startKafka: Unit = {
+      val kafka = new KafkaContainer
+      kafka.start()
+      val bootstrapServers = kafka.getBootstrapServers
+      println(s"BootstrapServers: $bootstrapServers")
     }
+
+    def exitIfnoBootstrapArg: Unit = {
+      if(!cmd.hasOption("bootstrapServer")) {
+        println("bootstrapServer arg is missing!")
+        this.finalize()
+      }
+    }
+
 
     def startProducer: Unit = {
       try {
-
+        val bootstrapServer = cmd.getOptionValue("bootstrapServer")
         val producerConfig = system.settings.config.getConfig("akka.kafka.producer")
-
-        val kafka = new KafkaContainer
-        kafka.start()
-        val bootstrapServers = kafka.getBootstrapServers
-        println(s"BootstrapServers: $bootstrapServers")
-
-        val producerActor = system.actorOf(KafkaStreamingProducerActor.props(producerConfig, bootstrapServers), "KafkaStreamingProducerActor")
+        val producerActor = system.actorOf(KafkaStreamingProducerActor.props(producerConfig, bootstrapServer), "KafkaStreamingProducerActor")
 
         producerActor ! "gethealth"
         producerActor ! "writekafka"
@@ -96,9 +69,10 @@ object ActorDemoApplication extends App {
       finally system.terminate
     }
 
-    def startConsumer(bootstrapServers: String) : Unit = {
+    def startConsumer : Unit = {
       try {
 
+        val bootstrapServers = cmd.getOptionValue("bootstrapServer")
         val consumerConfig = system.settings.config.getConfig("akka.kafka.consumer")
         val consumerActor = system.actorOf((KafkaStreamingConsumerActor.props(consumerConfig, bootstrapServers)), "KafkaStreamingConsumerActor")
 
